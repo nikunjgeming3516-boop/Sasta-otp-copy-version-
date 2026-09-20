@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SastaSMS - Admin Panel</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        
+        .sidebar-link.active { background-color: #4f46e5; color: white; }
+        .sidebar-link:hover:not(.active) { background-color: #374151; color: white; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 flex h-screen overflow-hidden">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="w-64 bg-gray-900 text-gray-300 flex flex-col transition-all duration-300 hidden md:flex" id="sidebar">
+        <!-- Logo -->
+        <div class="h-16 flex items-center justify-center bg-gray-800 text-white font-bold text-xl border-b border-gray-700">
+            <i class="fa-solid fa-bolt text-indigo-500 mr-2"></i> SastaSMS Admin
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li>
+                    <a href="#" onclick="showSection('dashboard')" class="sidebar-link active flex items-center px-4 py-3 text-sm font-medium rounded-lg mx-2 transition">
+                        <i class="fa-solid fa-chart-pie w-6"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('users')" class="sidebar-link flex items-center px-4 py-3 text-sm font-medium rounded-lg mx-2 transition">
+                        <i class="fa-solid fa-users w-6"></i> User Management
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('services')" class="sidebar-link flex items-center px-4 py-3 text-sm font-medium rounded-lg mx-2 transition">
+                        <i class="fa-solid fa-box-open w-6"></i> Services & Pricing
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('apis')" class="sidebar-link flex items-center px-4 py-3 text-sm font-medium rounded-lg mx-2 transition">
+                        <i class="fa-solid fa-plug w-6"></i> API Providers
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('orders')" class="sidebar-link flex items-center px-4 py-3 text-sm font-medium rounded-lg mx-2 transition">
+                        <i class="fa-solid fa-receipt w-6"></i> Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('settings')" class="sidebar-link flex items-center px-4 py-3 text-sm font-medium rounded-lg mx-2 transition">
+                        <i class="fa-solid fa-gear w-6"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Admin Profile / Logout -->
+        <div class="p-4 border-t border-gray-700">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">A</div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-white">Admin User</p>
+                        <p class="text-xs text-gray-400">admin@sastasms.pro</p>
+                    </div>
+                </div>
+                <button class="text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden">
+        
+        <!-- Top Header -->
+        <header class="h-16 bg-white shadow-sm flex items-center justify-between px-6 z-10">
+            <div class="flex items-center">
+                <button class="md:hidden text-gray-600 mr-4" onclick="document.getElementById('sidebar').classList.toggle('hidden')">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-semibold text-gray-800" id="pageTitle">Dashboard</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative hidden sm:block">
+                    <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400"></i>
+                    <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64">
+                </div>
+                <button class="text-gray-500 hover:text-indigo-600 relative">
+                    <i class="fa-solid fa-bell text-xl"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Area -->
+        <div class="flex-1 overflow-y-auto p-6 bg-gray-50">
+
+            <!-- 1. DASHBOARD SECTION -->
+            <div id="dashboard" class="section-content">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-indigo-500">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Total Users</p>
+                                <h3 class="text-2xl font-bold text-gray-800">1,245</h3>
+                            </div>
+                            <div class="bg-indigo-100 p-3 rounded-full text-indigo-600"><i class="fa-solid fa-users text-xl"></i></div>
+                        </div>
+                        <p class="text-xs text-green-500 mt-2"><i class="fa-solid fa-arrow-up"></i> 12% from last month</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-green-500">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Total Revenue</p>
+                                <h3 class="text-2xl font-bold text-gray-800">₹45,230</h3>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-full text-green-600"><i class="fa-solid fa-wallet text-xl"></i></div>
+                        </div>
+                        <p class="text-xs text-green-500 mt-2"><i class="fa-solid fa-arrow-up"></i> 8% from last month</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-orange-500">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">API Balance</p>
+                                <h3 class="text-2xl font-bold text-gray-800">₹12,450</h3>
+                            </div>
+                            <div class="bg-orange-100 p-3 rounded-full text-orange-600"><i class="fa-solid fa-plug text-xl"></i></div>
+                        </div>
+                        <p class="text-xs text-red-500 mt-2"><i class="fa-solid fa-arrow-down"></i> Low balance alert</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-purple-500">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Total Orders</p>
+                                <h3 class="text-2xl font-bold text-gray-800">8,932</h3>
+                            </div>
+                            <div class="bg-purple-100 p-3 rounded-full text-purple-600"><i class="fa-solid fa-cart-shopping text-xl"></i></div>
+                        </div>
+                        <p class="text-xs text-green-500 mt-2"><i class="fa-solid fa-arrow-up"></i> 15% from last month</p>
+                    </div>
+                </div>
+
+                <!-- Recent Orders Table -->
+                <div class="bg-white rounded-xl shadow-sm mb-6">
+                    <div class="p-4 border-b flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-gray-800">Recent Orders</h2>
+                        <button class="text-sm text-indigo-600 hover:underline">View All</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-50 text-gray-600">
+                                <tr>
+                                    <th class="px-6 py-3 font-medium">Order ID</th>
+                                    <th class="px-6 py-3 font-medium">User</th>
+                                    <th class="px-6 py-3 font-medium">Service</th>
+                                    <th class="px-6 py-3 font-medium">Cost</th>
+                                    <th class="px-6 py-3 font-medium">Status</th>
+                                    <th class="px-6 py-3 font-medium">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium">#ORD-8921</td>
+                                    <td class="px-6 py-4">john_doe@email.com</td>
+                                    <td class="px-6 py-4">WhatsApp - Vietnam</td>
+                                    <td class="px-6 py-4">₹23.13</td>
+                                    <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Completed</span></td>
+                                    <td class="px-6 py-4 text-gray-500">Just now</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium">#ORD-8920</td>
+                                    <td class="px-6 py-4">sarah_k@email.com</td>
+                                    <td class="px-6 py-4">Telegram - India</td>
+                                    <td class="px-6 py-4">₹15.50</td>
+                                    <td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-medium">Pending</span></td>
+                                    <td class="px-6 py-4 text-gray-500">5 mins ago</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium">#ORD-8919</td>
+                                    <td class="px-6 py-4">mike_ross@email.com</td>
+                                    <td class="px-6 py-4">Facebook - USA</td>
+                                    <td class="px-6 py-4">₹30.00</td>
+                                    <td class="px-6 py-4"><span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">Cancelled</span></td>
+                                    <td class="px-6 py-4 text-gray-500">10 mins ago</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. USERS SECTION -->
+            <div id="users" class="section-content hidden">
+                <div class="bg-white rounded-xl shadow-sm">
+                    <div class="p-4 border-b flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-gray-800">User Management</h2>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 transition"><i class="fa-solid fa-plus mr-1"></i> Add User</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-50 text-gray-600">
+                                <tr>
+                                    <th class="px-6 py-3 font-medium">User ID</th>
+                                    <th class="px-6 py-3 font-medium">Email</th>
+                                    <th class="px-6 py-3 font-medium">Balance</th>
+                                    <th class="px-6 py-3 font-medium">Status</th>
+                                    <th class="px-6 py-3 font-medium">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium">#USR-001</td>
+                                    <td class="px-6 py-4">john_doe@email.com</td>
+                                    <td class="px-6 py-4 font-bold text-green-600">₹150.00</td>
+                                    <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Active</span></td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3" title="Add Balance"><i class="fa-solid fa-plus-circle"></i></button>
+                                        <button class="text-red-600 hover:text-red-900" title="Block User"><i class="fa-solid fa-ban"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium">#USR-002</td>
+                                    <td class="px-6 py-4">sarah_k@email.com</td>
+                                    <td class="px-6 py-4 font-bold text-green-600">₹45.50</td>
+                                    <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Active</span></td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3"><i class="fa-solid fa-plus-circle"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fa-solid fa-ban"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium">#USR-003</td>
+                                    <td class="px-6 py-4">spam_user@email.com</td>
+                                    <td class="px-6 py-4 font-bold text-green-600">₹0.00</td>
+                                    <td class="px-6 py-4"><span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">Blocked</span></td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3"><i class="fa-solid fa-plus-circle"></i></button>
+                                        <button class="text-green-600 hover:text-green-900" title="Unblock"><i class="fa-solid fa-check-circle"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. SERVICES SECTION -->
+            <div id="services" class="section-content hidden">
+                <div class="bg-white rounded-xl shadow-sm">
+                    <div class="p-4 border-b flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-gray-800">Services & Pricing</h2>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 transition"><i class="fa-solid fa-plus mr-1"></i> Add Service</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-50 text-gray-600">
+                                <tr>
+                                    <th class="px-6 py-3 font-medium">Service Name</th>
+                                    <th class="px-6 py-3 font-medium">Country</th>
+                                    <th class="px-6 py-3 font-medium">Buy Price (₹)</th>
+                                    <th class="px-6 py-3 font-medium">Sell Price (₹)</th>
+                                    <th class="px-6 py-3 font-medium">Status</th>
+                                    <th class="px-6 py-3 font-medium">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium"><i class="fa-brands fa-whatsapp text-green-500 mr-2"></i> WhatsApp</td>
+                                    <td class="px-6 py-4">Vietnam</td>
+                                    <td class="px-6 py-4 text-gray-500">₹18.00</td>
+                                    <td class="px-6 py-4 font-bold text-indigo-600">₹23.13</td>
+                                    <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Active</span></td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium"><i class="fa-brands fa-telegram text-blue-500 mr-2"></i> Telegram</td>
+                                    <td class="px-6 py-4">India</td>
+                                    <td class="px-6 py-4 text-gray-500">₹10.00</td>
+                                    <td class="px-6 py-4 font-bold text-indigo-600">₹15.50</td>
+                                    <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Active</span></td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium"><i class="fa-brands fa-facebook text-blue-700 mr-2"></i> Facebook</td>
+                                    <td class="px-6 py-4">USA</td>
+                                    <td class="px-6 py-4 text-gray-500">₹22.00</td>
+                                    <td class="px-6 py-4 font-bold text-indigo-600">₹30.00</td>
+                                    <td class="px-6 py-4"><span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">Inactive</span></td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. API PROVIDERS SECTION -->
+            <div id="apis" class="section-content hidden">
+                <div class="bg-white rounded-xl shadow-sm mb-6">
+                    <div class="p-4 border-b flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-gray-800">API Providers</h2>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 transition"><i class="fa-solid fa-plus mr-1"></i> Add API Provider</button>
+                    </div>
+                    <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- API Card 1 -->
+                        <div class="border rounded-lg p-4 bg-gray-50">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-gray-800">SMS-Activate</h3>
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Connected</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-1">API Key: <span class="font-mono text-gray-800">sk_live_••••••••••••</span></p>
+                            <p class="text-sm text-gray-500 mb-3">Balance: <span class="font-bold text-green-600">₹8,450.00</span></p>
+                            <div class="flex gap-2">
+                                <button class="bg-white border text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-100">Edit</button>
+                                <button class="bg-white border text-red-600 px-3 py-1 rounded text-sm hover:bg-red-50">Disconnect</button>
+                            </div>
+                        </div>
+                        <!-- API Card 2 -->
+                        <div class="border rounded-lg p-4 bg-gray-50">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-gray-800">5SIM</h3>
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Connected</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-1">API Key: <span class="font-mono text-gray-800">5sim_••••••••••••</span></p>
+                            <p class="text-sm text-gray-500 mb-3">Balance: <span class="font-bold text-orange-600">₹4,000.00</span></p>
+                            <div class="flex gap-2">
+                                <button class="bg-white border text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-100">Edit</button>
+                                <button class="bg-white border text-red-600 px-3 py-1 rounded text-sm hover:bg-red-50">Disconnect</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. ORDERS SECTION -->
+            <div id="orders" class="section-content hidden">
+                <div class="bg-white rounded-xl shadow-sm">
+                    <div class="p-4 border-b flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-gray-800">All Orders</h2>
+                        <div class="flex gap-2">
+                            <input type="date" class="border rounded px-3 py-1 text-sm">
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700">Filter</button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-50 text-gray-600">
+                                <tr>
+                                    <th class="px-6 py-3 font-medium">Order ID</th>
+                                    <th class="px-6 py-3 font-medium">User</th>
+                                    <th class="px-6 py-3 font-medium">Service</th>
+                                    <th class="px-6 py-3 font-medium">OTP Code</th>
+                                    <th class="px-6 py-3 font-medium">Status</th>
+                                    <th class="px-6 py-3 font-medium">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium">#ORD-8921</td>
+                                    <td class="px-6 py-4">john_doe@email.com</td>
+                                    <td class="px-6 py-4">WhatsApp - Vietnam</td>
+                                    <td class="px-6 py-4 font-mono font-bold text-indigo-600">482910</td>
+                                    <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Completed</span></td>
+                                    <td class="px-6 py-4 text-gray-500">Just now</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium">#ORD-8920</td>
+                                    <td class="px-6 py-4">sarah_k@email.com</td>
+                                    <td class="px-6 py-4">Telegram - India</td>
+                                    <td class="px-6 py-4 text-gray-400">-</td>
+                                    <td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-medium">Pending</span></td>
+                                    <td class="px-6 py-4 text-gray-500">5 mins ago</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. SETTINGS SECTION -->
+            <div id="settings" class="section-content hidden">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Website Settings</h2>
+                    <form class="space-y-4 max-w-lg">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Website Name</label>
+                            <input type="text" value="SastaSMS" class="w-full border rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Support Email</label>
+                            <input type="email" value="support@sastasms.pro" class="w-full border rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Deposit (₹)</label>
+                            <input type="number" value="50" class="w-full border rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="maintenance" class="mr-2 rounded text-indigo-600 focus:ring-indigo-500">
+                            <label for="maintenance" class="text-sm font-medium text-gray-700">Enable Maintenance Mode</label>
+                        </div>
+                        <button type="button" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition">Save Settings</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ================= JAVASCRIPT FOR TAB SWITCHING ================= -->
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show the selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            // Update Active Link in Sidebar
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Update Page Title
+            const titles = {
+                'dashboard': 'Dashboard Overview',
+                'users': 'User Management',
+                'services': 'Services & Pricing',
+                'apis': 'API Providers',
+                'orders': 'Order History',
+                'settings': 'Website Settings'
+            };
+            document.getElementById('pageTitle').innerText = titles[sectionId] || 'Dashboard';
+        }
+    </script>
+</body>
+</html>

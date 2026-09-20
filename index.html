@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SastaSMS - Buy OTP</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="logo">
+            <i class="fa-solid fa-bolt"></i> SastaSMS
+        </div>
+        <div class="balance-box">
+            <span>₹ <span id="userBalance">75.48</span></span>
+            <button class="add-funds"><i class="fa-solid fa-plus"></i></button>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+        <div class="tab active">Service Selection</div>
+        <div class="tab">Order History</div>
+        <div class="tab">Child Panel</div>
+    </div>
+
+    <!-- Promo Banner -->
+    <div class="promo-banner">
+        <div class="promo-content">
+            <span class="badge">⚡ PRICE DROP!</span>
+            <h2>WhatsApp Vietnam</h2>
+            <p>🇻🇳 Vietnam <span class="price">₹23.13</span> <span class="old-price">₹48.75</span></p>
+            <small>Limited time offer · Join @SastaSMS_Updates on Telegram</small>
+        </div>
+    </div>
+
+    <!-- Support Buttons -->
+    <div class="action-buttons">
+        <div class="btn-card">
+            <p>Need Help?<br><small>24/7 support</small></p>
+            <button class="btn-blue">Contact Support</button>
+        </div>
+        <div class="btn-card">
+            <p>Updates & Deals<br><small>New offers</small></p>
+            <button class="btn-blue">Join Channel</button>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="services-section">
+        <div class="section-header">
+            <h3>Service selection</h3>
+            <a href="#">All services (2831) ></a>
+        </div>
+        
+        <div class="filter-tabs">
+            <button class="filter active">All</button>
+            <button class="filter">Single OTP</button>
+            <button class="filter">Multi OTP</button>
+        </div>
+
+        <div class="search-bar">
+            <i class="fa-solid fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search services...">
+        </div>
+
+        <!-- Services List (JS will populate this) -->
+        <div class="services-list" id="servicesList">
+            <!-- Example Item -->
+            <div class="service-item">
+                <div class="service-info">
+                    <i class="fa-brands fa-whatsapp" style="color:#25D366;"></i>
+                    <div>
+                        <h4>WhatsApp</h4>
+                        <p>Vietnam</p>
+                    </div>
+                </div>
+                <div class="service-price">
+                    <span>₹23.13</span>
+                    <button class="buy-btn" onclick="buyOTP('WhatsApp')">Buy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active"><i class="fa-solid fa-list"></i><span>Services</span></div>
+        <div class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></div>
+        <div class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Stats</span></div>
+        <div class="nav-item"><i class="fa-solid fa-users"></i><span>Affiliate</span></div>
+        <div class="nav-item"><i class="fa-solid fa-wallet"></i><span>Wallet</span></div>
+        <div class="nav-item"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
